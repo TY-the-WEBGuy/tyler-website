@@ -4,267 +4,977 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Tyler van Wyk | Web Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+:root {
+  --bg-deep:     #050d1a;
+  --bg-mid:      #0a1628;
+  --bg-card:     #0d1f35;
+  --bg-card2:    #091525;
+  --green:       #00ff88;
+  --green-dim:   #00cc6a;
+  --cyan:        #00e5ff;
+  --neon-blue:   #0af;
+  --neo-blue:    #1a6fff;
+  --blue-bright: #38bdf8;
+  --purple:      #7c3aed;
+  --border:      #1a3a5c;
+  --border-glow: #0af4;
+  --text:        #e2f0ff;
+  --text-muted:  #5a8aaa;
 }
+
+*, *::before, *::after {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
 
 body {
-  background: #0b1220;
-  color: white;
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 17px;
+  line-height: 1.8;
+  overflow-x: hidden;
 }
 
-/* NAVBAR */
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--neo-blue); border-radius: 3px; }
+
+/* ─── GRID BACKGROUND ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,170,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,170,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── NAV ─── */
 nav {
   position: fixed;
-  top: 0;
-  width: 100%;
-  background: rgba(11,18,32,0.9);
-  backdrop-filter: blur(10px);
+  top: 0; width: 100%;
+  background: rgba(5,13,26,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  border-bottom: 1px solid #1f2937;
+  padding: 0 40px;
+  height: 65px;
   z-index: 1000;
 }
 
 .logo {
-  font-weight: bold;
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, var(--green), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* MENU */
 .menu {
   display: flex;
-  gap: 20px;
+  gap: 36px;
+  align-items: center;
 }
 
 .menu a {
-  color: white;
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
 }
 
-.menu a:hover {
-  color: #22c55e;
+.menu a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, var(--green), var(--cyan));
+  transition: width 0.3s;
 }
 
-/* HAMBURGER */
+.menu a:hover { color: var(--cyan); }
+.menu a:hover::after { width: 100%; }
+
+/* ─── HAMBURGER ─── */
 .hamburger {
   display: none;
-  flex-direction: column;
   cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-card);
+  transition: border-color 0.2s;
 }
 
-.hamburger div {
-  width: 25px;
-  height: 3px;
-  background: white;
-  margin: 4px;
+.hamburger:hover { border-color: var(--cyan); }
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  border-radius: 2px;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* MOBILE MENU */
+.hamburger span:nth-child(1) { width: 22px; }
+.hamburger span:nth-child(2) { width: 16px; }
+.hamburger span:nth-child(3) { width: 22px; }
+
+.hamburger.open span:nth-child(1) {
+  width: 22px;
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  width: 0;
+  opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+  width: 22px;
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ─── MOBILE MENU ─── */
 @media (max-width: 768px) {
+  nav { padding: 0 20px; }
+
   .menu {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background: #111827;
+    position: fixed;
+    top: 65px; left: 0; right: 0;
+    background: rgba(5,13,26,0.98);
+    backdrop-filter: blur(20px);
     flex-direction: column;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 0;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    border-bottom: 1px solid transparent;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), border-color 0.3s, padding 0.3s;
   }
 
   .menu.active {
-    display: flex;
+    max-height: 320px;
+    padding: 12px 0 20px;
+    border-color: var(--border);
   }
 
-  .hamburger {
-    display: flex;
+  .menu a {
+    font-size: 14px;
+    padding: 14px 32px;
+    width: 100%;
+    border-left: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
   }
+
+  .menu a:hover, .menu a:active {
+    color: var(--cyan);
+    border-left-color: var(--cyan);
+    background: rgba(0,170,255,0.06);
+  }
+
+  .menu a::after { display: none; }
+
+  .hamburger { display: flex; }
 }
 
-/* HERO */
+/* ─── HERO ─── */
 header {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 80px 20px;
-  background: radial-gradient(circle at top, #1e293b, #0b1220);
+  padding: 100px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0,170,255,0.12) 0%, rgba(0,255,136,0.05) 40%, transparent 70%);
+  pointer-events: none;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  50%       { transform: translateX(-50%) scale(1.15); opacity: 0.7; }
+}
+
+.hero-tag {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--green);
+  border: 1px solid rgba(0,255,136,0.3);
+  border-radius: 20px;
+  padding: 6px 18px;
+  margin-bottom: 28px;
+  display: inline-block;
+  animation: fadeUp 0.6s ease both;
 }
 
 h1 {
-  font-size: 50px;
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(36px, 7vw, 72px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  animation: fadeUp 0.7s 0.1s ease both;
 }
+
+.name-green { color: var(--green); }
+.name-cyan  { color: var(--cyan); }
 
 .subtitle {
-  color: #94a3b8;
-  margin: 10px 0 20px;
+  color: var(--text-muted);
+  font-size: clamp(15px, 2.5vw, 19px);
+  letter-spacing: 1px;
+  margin-bottom: 48px;
+  max-width: 500px;
+  animation: fadeUp 0.7s 0.2s ease both;
 }
 
-/* BUTTONS */
+.hero-btns {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp 0.7s 0.3s ease both;
+}
+
 .btn {
-  padding: 12px 20px;
-  margin: 5px;
+  padding: 14px 28px;
   border-radius: 8px;
   text-decoration: none;
-  font-weight: bold;
-  display: inline-block;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
 }
 
-.green {
-  background: #22c55e;
-  color: black;
+.btn-green {
+  background: linear-gradient(135deg, var(--green), var(--cyan));
+  color: #050d1a;
+  box-shadow: 0 0 20px rgba(0,255,136,0.35);
 }
 
-.border {
-  border: 1px solid #334155;
-  color: white;
+.btn-green:hover {
+  box-shadow: 0 0 36px rgba(0,255,136,0.55);
+  transform: translateY(-2px);
 }
 
-/* SECTIONS */
+.btn-outline {
+  border: 1px solid var(--neo-blue);
+  color: var(--cyan);
+  background: rgba(26,111,255,0.08);
+}
+
+.btn-outline:hover {
+  background: rgba(26,111,255,0.2);
+  box-shadow: 0 0 20px rgba(26,111,255,0.3);
+  transform: translateY(-2px);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  animation: fadeUp 1s 0.6s both;
+}
+
+.scroll-arrow {
+  width: 20px; height: 20px;
+  border-right: 2px solid var(--cyan);
+  border-bottom: 2px solid var(--cyan);
+  transform: rotate(45deg);
+  animation: bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50%       { transform: rotate(45deg) translateY(6px); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SECTION BASE ─── */
 section {
-  padding: 80px 20px;
-  max-width: 1000px;
-  margin: auto;
+  padding: 100px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(22px, 4vw, 34px);
+  font-weight: 700;
   text-align: center;
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+}
+
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--cyan));
+  border-radius: 2px;
+  margin: 0 auto 60px;
+}
+
+/* ─── ABOUT ─── */
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.about-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 36px;
+  line-height: 2;
+  color: #8ab4cc;
+  font-size: 16px;
+}
+
+.about-card p { margin-bottom: 16px; }
+.about-card p:last-child { margin-bottom: 0; }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.skill-chip {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.skill-chip:hover {
+  border-color: var(--cyan);
+  background: rgba(0,170,255,0.06);
+}
+
+.skill-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  flex-shrink: 0;
+}
+
+.skill-dot.blue { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+.skill-dot.neo  { background: var(--neo-blue); box-shadow: 0 0 8px var(--neo-blue); }
+
+@media (max-width: 768px) {
+  .about-inner { grid-template-columns: 1fr; }
+}
+
+/* ─── PROJECTS ─── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--cyan));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.project-card:hover {
+  border-color: var(--cyan);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,170,255,0.12);
+}
+
+.project-card:hover::before { opacity: 1; }
+
+.project-tag {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 14px;
+}
+
+.project-card h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: var(--cyan);
+}
+
+.project-card p {
+  color: #6a9ab8;
+  font-size: 15px;
+  line-height: 1.8;
   margin-bottom: 20px;
 }
 
-/* CARDS */
-.grid {
+.project-link {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  text-decoration: none;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0,229,255,0.3);
+  padding-bottom: 2px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.project-link:hover {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+/* ─── PRICING ─── */
+#pricing {
+  max-width: 1200px;
+}
+
+.pricing-grid {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,10,30,0.6);
+}
+
+@media (max-width: 900px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    border-radius: 14px;
+    gap: 20px;
+    background: none;
+    box-shadow: none;
+  }
+  .pricing-card { border-radius: 14px !important; }
+}
+
+.pricing-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 40px;
+  position: relative;
+  transition: transform 0.3s;
+}
+
+/* ── STARTER (left) ── */
+.pricing-card.starter {
+  background: #0d1f38;
+  border: 1px solid #1a3a5c;
+}
+
+.pricing-ribbon.starter-ribbon {
+  background: linear-gradient(135deg, #0af, #0069cc);
+  color: #fff;
+  text-align: center;
+  padding: 18px 24px;
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.pricing-card.starter .price { color: var(--cyan); }
+.pricing-card.starter .buy-btn {
+  background: transparent;
+  border: 2px solid var(--cyan);
+  color: var(--cyan);
+}
+.pricing-card.starter .buy-btn:hover {
+  background: var(--cyan);
+  color: #050d1a;
+  box-shadow: 0 0 24px rgba(0,170,255,0.5);
+}
+
+/* ── PRO / featured (middle) ── */
+.pricing-card.pro {
+  background: linear-gradient(175deg, #0d3a7a, #061a3d);
+  border: 1px solid #1a6fff;
+  transform: scaleY(1.03);
+  z-index: 2;
+  box-shadow: 0 0 60px rgba(26,111,255,0.25);
+}
+
+.pricing-ribbon.pro-ribbon {
+  background: linear-gradient(135deg, #f5c518, #e09900);
+  color: #050d1a;
+  text-align: center;
+  padding: 18px 24px;
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.pricing-card.pro .price { color: #fff; }
+.pricing-card.pro .buy-btn {
+  background: #fff;
+  color: #061a3d;
+  border: none;
+}
+.pricing-card.pro .buy-btn:hover {
+  background: var(--green);
+  color: #050d1a;
+  box-shadow: 0 0 24px rgba(0,255,136,0.4);
+}
+
+/* ── SUPER (right) ── */
+.pricing-card.super {
+  background: #060f20;
+  border: 1px solid #0d2a4a;
+}
+
+.pricing-ribbon.super-ribbon {
+  background: linear-gradient(135deg, #1a2a4a, #0d1f38);
+  color: #38bdf8;
+  text-align: center;
+  padding: 18px 24px;
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  border-bottom: 1px solid #1a3a5c;
+}
+
+.pricing-card.super .price { color: #e2f0ff; }
+.pricing-card.super .buy-btn {
+  background: transparent;
+  border: 2px solid #38bdf8;
+  color: #38bdf8;
+}
+.pricing-card.super .buy-btn:hover {
+  background: #38bdf8;
+  color: #050d1a;
+  box-shadow: 0 0 24px rgba(56,189,248,0.4);
+}
+
+/* ── Shared pricing internals ── */
+.pricing-body {
+  padding: 28px 32px 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.price {
+  font-family: 'Orbitron', monospace;
+  font-size: 36px;
+  font-weight: 900;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.price-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 28px;
+}
+
+.pricing-features {
+  list-style: none;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pricing-features li {
+  padding: 13px 0;
+  font-size: 15px;
+  color: #8ab4cc;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.5;
+}
+
+.pricing-features li::before {
+  content: '›';
+  color: var(--cyan);
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.pricing-card.pro .pricing-features li { color: rgba(255,255,255,0.75); }
+.pricing-card.pro .pricing-features li::before { color: #f5c518; }
+.pricing-card.super .pricing-features li::before { color: #38bdf8; }
+
+.buy-btn {
+  display: block;
+  margin: 28px 32px 0;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-family: 'Orbitron', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+/* ─── CONTACT ─── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 640px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+.contact-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
   gap: 20px;
+  transition: border-color 0.3s, transform 0.3s;
+  text-decoration: none;
+  color: inherit;
 }
 
-.card {
-  background: #111827;
-  padding: 20px;
+.contact-card:hover {
+  border-color: var(--cyan);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(0,170,255,0.12);
+}
+
+.contact-icon {
+  width: 48px; height: 48px;
   border-radius: 12px;
-  border: 1px solid #1f2937;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
 }
 
-/* PRICING */
-.pricing {
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+.contact-icon.email { background: rgba(0,229,255,0.12); border: 1px solid rgba(0,229,255,0.25); }
+.contact-icon.wa    { background: rgba(0,255,136,0.12); border: 1px solid rgba(0,255,136,0.25); }
+
+.contact-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
 }
 
-/* FOOTER */
+.contact-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ─── FOOTER ─── */
 footer {
   text-align: center;
-  padding: 20px;
-  border-top: 1px solid #1f2937;
-  color: #64748b;
+  padding: 32px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 13px;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
 }
+
+footer span { color: var(--green); }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
+<!-- ─── NAV ─── -->
 <nav>
-  <div class="logo">Tyler Dev</div>
+  <div class="logo">TYLER.DEV</div>
 
   <div class="menu" id="menu">
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#contact">Contact</a>
+    <a href="#about"    onclick="closeMenu()">About</a>
+    <a href="#projects" onclick="closeMenu()">Projects</a>
+    <a href="#pricing"  onclick="closeMenu()">Pricing</a>
+    <a href="#contact"  onclick="closeMenu()">Contact</a>
   </div>
 
-  <div class="hamburger" onclick="toggleMenu()">
-    <div></div>
-    <div></div>
-    <div></div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ─── HERO ─── -->
 <header>
-  <h1>Tyler van Wyk</h1>
-  <p class="subtitle">Web Developer | Modern Websites for Businesses</p>
-
-  <div>
-    <a class="btn green" href="mailto:tylercalebvw15@gmail.com">Email Me</a>
-    <a class="btn border" href="https://wa.me/27636736961" target="_blank">WhatsApp</a>
+  <div class="hero-glow"></div>
+  <div class="hero-tag">Available for Projects</div>
+  <h1><span class="name-green">Tyler</span> <span class="name-cyan">van Wyk</span></h1>
+  <p class="subtitle">Web Developer &nbsp;·&nbsp; Modern Websites for Businesses</p>
+  <div class="hero-btns">
+    <a class="btn btn-green" href="mailto:tylercalebvw15@gmail.com">✉ Email Me</a>
+    <a class="btn btn-outline" href="https://wa.me/27636736961" target="_blank">💬 WhatsApp</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-arrow"></div>
+    Scroll
   </div>
 </header>
 
-<!-- ABOUT -->
+<!-- ─── ABOUT ─── -->
 <section id="about">
+  <div class="section-label">Who I Am</div>
   <h2>About Me</h2>
-  <div class="card">
-    I design and build modern, fast, and responsive websites for businesses and personal brands.
+  <div class="section-divider"></div>
+
+  <div class="about-inner">
+    <div class="about-card">
+      <p>I design and build modern, fast, and fully responsive websites for businesses and personal brands that want to stand out online.</p>
+      <p>Every site I deliver is clean, mobile-first, and built to make an impression — no templates, no shortcuts.</p>
+      <p>Whether you need a simple landing page or an ongoing digital presence, I've got a plan that fits your budget and your goals.</p>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-chip"><span class="skill-dot"></span> HTML &amp; CSS</div>
+      <div class="skill-chip"><span class="skill-dot blue"></span> JavaScript</div>
+      <div class="skill-chip"><span class="skill-dot neo"></span> Responsive Design</div>
+      <div class="skill-chip"><span class="skill-dot"></span> UI / UX</div>
+      <div class="skill-chip"><span class="skill-dot blue"></span> GitHub Pages</div>
+      <div class="skill-chip"><span class="skill-dot neo"></span> Fast Delivery</div>
+    </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
+<!-- ─── PROJECTS ─── -->
 <section id="projects">
+  <div class="section-label">Portfolio</div>
   <h2>Recent Projects</h2>
+  <div class="section-divider"></div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Xpressions Mockup Website</h3>
-      <p>Modern UI concept design for a creative brand showcase website.</p>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-tag">UI Concept · 2026</div>
+      <h3>Xpressions Mockup</h3>
+      <p>Modern UI concept design for a creative brand showcase website. Clean layout with bold typography and smooth interactions.</p>
+      <a class="project-link" href="#">View Project →</a>
     </div>
+
+    <div class="project-card">
+      <div class="project-tag">Coming Soon</div>
+      <h3>Next Project</h3>
+      <p>More work coming soon. Reach out if you'd like to be featured here or collaborate on something great.</p>
+      <a class="project-link" href="mailto:tylercalebvw15@gmail.com">Get In Touch →</a>
+    </div>
+
   </div>
 </section>
 
-<!-- PRICING -->
+<!-- ─── PRICING ─── -->
 <section id="pricing">
+  <div class="section-label">Plans</div>
   <h2>Pricing</h2>
+  <div class="section-divider"></div>
 
-  <div class="grid pricing">
+  <div class="pricing-grid">
 
-    <div class="card">
-      <h3>Starter</h3>
-      <p><b>R800 once-off</b></p>
-      <p>Basic website setup. You own it after delivery.</p>
+    <!-- STARTER -->
+    <div class="pricing-card starter">
+      <div class="pricing-ribbon starter-ribbon">STARTER</div>
+      <div class="pricing-body">
+        <div class="price">R800</div>
+        <div class="price-sub">once-off payment</div>
+        <ul class="pricing-features">
+          <li>Single-page website</li>
+          <li>Fully responsive design</li>
+          <li>Hosted on GitHub Pages</li>
+          <li>Contact form included</li>
+          <li>You own it on delivery</li>
+        </ul>
+      </div>
+      <a class="buy-btn" href="mailto:tylercalebvw15@gmail.com?subject=Starter Plan">GET STARTED</a>
     </div>
 
-    <div class="card">
-      <h3>Pro</h3>
-      <p><b>R800 + R200/month</b></p>
-      <p>Website + monthly updates and small changes.</p>
+    <!-- PRO (featured) -->
+    <div class="pricing-card pro">
+      <div class="pricing-ribbon pro-ribbon">⭐ PRO</div>
+      <div class="pricing-body">
+        <div class="price">R800</div>
+        <div class="price-sub">+ R200 / month</div>
+        <ul class="pricing-features">
+          <li>Everything in Starter</li>
+          <li>Monthly content updates</li>
+          <li>Small design changes</li>
+          <li>Priority email support</li>
+          <li>Performance monitoring</li>
+        </ul>
+      </div>
+      <a class="buy-btn" href="mailto:tylercalebvw15@gmail.com?subject=Pro Plan">GET STARTED</a>
     </div>
 
-    <div class="card">
-      <h3>Super</h3>
-      <p><b>R800 + R350/month</b></p>
-      <p>Weekly updates, priority support, ongoing improvements.</p>
+    <!-- SUPER -->
+    <div class="pricing-card super">
+      <div class="pricing-ribbon super-ribbon">SUPER</div>
+      <div class="pricing-body">
+        <div class="price">R800</div>
+        <div class="price-sub">+ R350 / month</div>
+        <ul class="pricing-features">
+          <li>Everything in Pro</li>
+          <li>Weekly updates</li>
+          <li>Priority WhatsApp support</li>
+          <li>Ongoing improvements</li>
+          <li>New sections on request</li>
+        </ul>
+      </div>
+      <a class="buy-btn" href="mailto:tylercalebvw15@gmail.com?subject=Super Plan">GET STARTED</a>
     </div>
 
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ─── CONTACT ─── -->
 <section id="contact">
+  <div class="section-label">Let's Talk</div>
   <h2>Contact</h2>
-  <div class="card">
-    <p>Email: tylercalebvw15@gmail.com</p>
-    <p>WhatsApp: +27 636736961</p>
+  <div class="section-divider"></div>
+
+  <div class="contact-grid">
+    <a class="contact-card" href="mailto:tylercalebvw15@gmail.com">
+      <div class="contact-icon email">✉</div>
+      <div>
+        <div class="contact-label">Email</div>
+        <div class="contact-value">tylercalebvw15@gmail.com</div>
+      </div>
+    </a>
+    <a class="contact-card" href="https://wa.me/27636736961" target="_blank">
+      <div class="contact-icon wa">💬</div>
+      <div>
+        <div class="contact-label">WhatsApp</div>
+        <div class="contact-value">+27 63 673 6961</div>
+      </div>
+    </a>
   </div>
 </section>
 
 <footer>
-  © 2026 Tyler van Wyk
+  © 2026 <span>Tyler van Wyk</span> &nbsp;·&nbsp; Built with intent.
 </footer>
 
 <script>
 function toggleMenu() {
-  document.getElementById("menu").classList.toggle("active");
+  const menu = document.getElementById('menu');
+  const ham  = document.getElementById('hamburger');
+  menu.classList.toggle('active');
+  ham.classList.toggle('open');
 }
+
+function closeMenu() {
+  document.getElementById('menu').classList.remove('active');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// Close menu on outside click
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('menu');
+  const ham  = document.getElementById('hamburger');
+  if (!menu.contains(e.target) && !ham.contains(e.target)) {
+    menu.classList.remove('active');
+    ham.classList.remove('open');
+  }
+});
 </script>
 
 </body>

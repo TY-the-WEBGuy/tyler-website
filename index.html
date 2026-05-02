@@ -18,18 +18,12 @@
   --neon-blue:   #0af;
   --neo-blue:    #1a6fff;
   --blue-bright: #38bdf8;
-  --purple:      #7c3aed;
   --border:      #1a3a5c;
-  --border-glow: #0af4;
   --text:        #e2f0ff;
   --text-muted:  #5a8aaa;
 }
 
-*, *::before, *::after {
-  margin: 0; padding: 0;
-  box-sizing: border-box;
-}
-
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
 
 body {
@@ -41,12 +35,10 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── SCROLLBAR ─── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-deep); }
 ::-webkit-scrollbar-thumb { background: var(--neo-blue); border-radius: 3px; }
 
-/* ─── GRID BACKGROUND ─── */
 body::before {
   content: '';
   position: fixed;
@@ -59,7 +51,7 @@ body::before {
   z-index: 0;
 }
 
-/* ─── NAV ─── */
+/* NAV */
 nav {
   position: fixed;
   top: 0; width: 100%;
@@ -84,11 +76,7 @@ nav {
   -webkit-text-fill-color: transparent;
 }
 
-.menu {
-  display: flex;
-  gap: 36px;
-  align-items: center;
-}
+.menu { display: flex; gap: 36px; align-items: center; }
 
 .menu a {
   color: var(--text-muted);
@@ -113,7 +101,7 @@ nav {
 .menu a:hover { color: var(--cyan); }
 .menu a:hover::after { width: 100%; }
 
-/* ─── HAMBURGER ─── */
+/* HAMBURGER */
 .hamburger {
   display: none;
   cursor: pointer;
@@ -144,20 +132,10 @@ nav {
 .hamburger span:nth-child(2) { width: 16px; }
 .hamburger span:nth-child(3) { width: 22px; }
 
-.hamburger.open span:nth-child(1) {
-  width: 22px;
-  transform: translateY(7px) rotate(45deg);
-}
-.hamburger.open span:nth-child(2) {
-  width: 0;
-  opacity: 0;
-}
-.hamburger.open span:nth-child(3) {
-  width: 22px;
-  transform: translateY(-7px) rotate(-45deg);
-}
+.hamburger.open span:nth-child(1) { width: 22px; transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { width: 0; opacity: 0; }
+.hamburger.open span:nth-child(3) { width: 22px; transform: translateY(-7px) rotate(-45deg); }
 
-/* ─── MOBILE MENU ─── */
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
 
@@ -196,11 +174,10 @@ nav {
   }
 
   .menu a::after { display: none; }
-
   .hamburger { display: flex; }
 }
 
-/* ─── HERO ─── */
+/* HERO */
 header {
   min-height: 100vh;
   display: flex;
@@ -215,11 +192,9 @@ header {
 
 .hero-glow {
   position: absolute;
-  top: 15%;
-  left: 50%;
+  top: 15%; left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 600px;
+  width: 600px; height: 600px;
   background: radial-gradient(circle, rgba(0,170,255,0.12) 0%, rgba(0,255,136,0.05) 40%, transparent 70%);
   pointer-events: none;
   animation: pulse 4s ease-in-out infinite;
@@ -283,8 +258,6 @@ h1 {
   letter-spacing: 2px;
   text-transform: uppercase;
   transition: all 0.25s;
-  position: relative;
-  overflow: hidden;
 }
 
 .btn-green {
@@ -312,8 +285,7 @@ h1 {
 
 .scroll-hint {
   position: absolute;
-  bottom: 30px;
-  left: 50%;
+  bottom: 30px; left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
@@ -344,7 +316,7 @@ h1 {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ─── SECTION BASE ─── */
+/* SECTIONS */
 section {
   padding: 100px 24px;
   max-width: 1100px;
@@ -372,14 +344,13 @@ h2 {
 }
 
 .section-divider {
-  width: 60px;
-  height: 3px;
+  width: 60px; height: 3px;
   background: linear-gradient(90deg, var(--green), var(--cyan));
   border-radius: 2px;
   margin: 0 auto 60px;
 }
 
-/* ─── ABOUT ─── */
+/* ABOUT */
 .about-inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -440,7 +411,7 @@ h2 {
   .about-inner { grid-template-columns: 1fr; }
 }
 
-/* ─── PROJECTS ─── */
+/* PROJECTS */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -509,20 +480,14 @@ h2 {
   transition: border-color 0.2s, color 0.2s;
 }
 
-.project-link:hover {
-  color: var(--green);
-  border-color: var(--green);
-}
+.project-link:hover { color: var(--green); border-color: var(--green); }
 
-/* ─── PRICING ─── */
-#pricing {
-  max-width: 1200px;
-}
+/* PRICING */
+#pricing { max-width: 1200px; }
 
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 30px 80px rgba(0,10,30,0.6);
@@ -544,10 +509,8 @@ h2 {
   flex-direction: column;
   padding: 0 0 40px;
   position: relative;
-  transition: transform 0.3s;
 }
 
-/* ── STARTER (left) ── */
 .pricing-card.starter {
   background: #0d1f38;
   border: 1px solid #1a3a5c;
@@ -576,7 +539,6 @@ h2 {
   box-shadow: 0 0 24px rgba(0,170,255,0.5);
 }
 
-/* ── PRO / featured (middle) ── */
 .pricing-card.pro {
   background: linear-gradient(175deg, #0d3a7a, #061a3d);
   border: 1px solid #1a6fff;
@@ -608,7 +570,6 @@ h2 {
   box-shadow: 0 0 24px rgba(0,255,136,0.4);
 }
 
-/* ── SUPER (right) ── */
 .pricing-card.super {
   background: #060f20;
   border: 1px solid #0d2a4a;
@@ -638,7 +599,6 @@ h2 {
   box-shadow: 0 0 24px rgba(56,189,248,0.4);
 }
 
-/* ── Shared pricing internals ── */
 .pricing-body {
   padding: 28px 32px 0;
   display: flex;
@@ -707,7 +667,7 @@ h2 {
   transition: all 0.25s;
 }
 
-/* ─── CONTACT ─── */
+/* CONTACT */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -762,7 +722,7 @@ h2 {
   color: var(--text);
 }
 
-/* ─── FOOTER ─── */
+/* FOOTER */
 footer {
   text-align: center;
   padding: 32px 20px;
@@ -776,7 +736,7 @@ footer {
 
 footer span { color: var(--green); }
 
-/* ─── MODAL OVERLAY ─── */
+/* MODAL */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -854,11 +814,7 @@ footer span { color: var(--green); }
   line-height: 1.7;
 }
 
-.modal-options {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+.modal-options { display: flex; flex-direction: column; gap: 12px; }
 
 .modal-option {
   background: var(--bg-card2);
@@ -879,10 +835,7 @@ footer span { color: var(--green); }
   transform: translateX(4px);
 }
 
-.modal-option-icon {
-  font-size: 26px;
-  flex-shrink: 0;
-}
+.modal-option-icon { font-size: 26px; flex-shrink: 0; }
 
 .modal-option-title {
   font-family: 'Orbitron', monospace;
@@ -893,11 +846,7 @@ footer span { color: var(--green); }
   letter-spacing: 1px;
 }
 
-.modal-option-desc {
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
+.modal-option-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
 .modal-divider {
   width: 40px; height: 2px;
@@ -922,32 +871,26 @@ footer span { color: var(--green); }
   font-family: 'Rajdhani', sans-serif;
   font-weight: 600;
 }
-
 .modal-back:hover { color: var(--cyan); }
-
+</style>
 </head>
-
 <body>
 
-<!-- ─── NAV ─── -->
+<!-- NAV -->
 <nav>
   <div class="logo">TYLER.DEV</div>
-
   <div class="menu" id="menu">
     <a href="#about"    onclick="closeMenu()">About</a>
     <a href="#projects" onclick="closeMenu()">Projects</a>
     <a href="#pricing"  onclick="closeMenu()">Pricing</a>
     <a href="#contact"  onclick="closeMenu()">Contact</a>
   </div>
-
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span>
-    <span></span>
-    <span></span>
+    <span></span><span></span><span></span>
   </div>
 </nav>
 
-<!-- ─── HERO ─── -->
+<!-- HERO -->
 <header>
   <div class="hero-glow"></div>
   <div class="hero-tag">Available for Projects</div>
@@ -963,19 +906,17 @@ footer span { color: var(--green); }
   </div>
 </header>
 
-<!-- ─── ABOUT ─── -->
+<!-- ABOUT -->
 <section id="about">
   <div class="section-label">Who I Am</div>
   <h2>About Me</h2>
   <div class="section-divider"></div>
-
   <div class="about-inner">
     <div class="about-card">
       <p>I design and build modern, fast, and fully responsive websites for businesses and personal brands that want to stand out online.</p>
       <p>Every site I deliver is clean, mobile-first, and built to make an impression — no templates, no shortcuts.</p>
       <p>Whether you need a simple landing page or an ongoing digital presence, I've got a plan that fits your budget and your goals.</p>
     </div>
-
     <div class="skills-grid">
       <div class="skill-chip"><span class="skill-dot"></span> HTML &amp; CSS</div>
       <div class="skill-chip"><span class="skill-dot blue"></span> JavaScript</div>
@@ -987,40 +928,34 @@ footer span { color: var(--green); }
   </div>
 </section>
 
-<!-- ─── PROJECTS ─── -->
+<!-- PROJECTS -->
 <section id="projects">
   <div class="section-label">Portfolio</div>
   <h2>Recent Projects</h2>
   <div class="section-divider"></div>
-
   <div class="projects-grid">
-
     <div class="project-card">
       <div class="project-tag">UI Concept · 2026</div>
       <h3>Xpressions Mockup</h3>
       <p>Modern UI concept design for a creative brand showcase website. Clean layout with bold typography and smooth interactions.</p>
       <a class="project-link" href="#">View Project →</a>
     </div>
-
     <div class="project-card">
       <div class="project-tag">Coming Soon</div>
       <h3>Next Project</h3>
       <p>More work coming soon. Reach out if you'd like to be featured here or collaborate on something great.</p>
       <a class="project-link" href="mailto:tylercalebvw15@gmail.com">Get In Touch →</a>
     </div>
-
   </div>
 </section>
 
-<!-- ─── PRICING ─── -->
+<!-- PRICING -->
 <section id="pricing">
   <div class="section-label">Plans</div>
   <h2>Pricing</h2>
   <div class="section-divider"></div>
-
   <div class="pricing-grid">
 
-    <!-- STARTER -->
     <div class="pricing-card starter">
       <div class="pricing-ribbon starter-ribbon">STARTER</div>
       <div class="pricing-body">
@@ -1037,7 +972,6 @@ footer span { color: var(--green); }
       <button class="buy-btn" onclick="openModal('Starter Plan')">GET STARTED</button>
     </div>
 
-    <!-- PRO (featured) -->
     <div class="pricing-card pro">
       <div class="pricing-ribbon pro-ribbon">⭐ PRO</div>
       <div class="pricing-body">
@@ -1054,7 +988,6 @@ footer span { color: var(--green); }
       <button class="buy-btn" onclick="openModal('Pro Plan')">GET STARTED</button>
     </div>
 
-    <!-- SUPER -->
     <div class="pricing-card super">
       <div class="pricing-ribbon super-ribbon">SUPER</div>
       <div class="pricing-body">
@@ -1074,12 +1007,11 @@ footer span { color: var(--green); }
   </div>
 </section>
 
-<!-- ─── CONTACT ─── -->
+<!-- CONTACT -->
 <section id="contact">
   <div class="section-label">Let's Talk</div>
   <h2>Contact</h2>
   <div class="section-divider"></div>
-
   <div class="contact-grid">
     <a class="contact-card" href="mailto:tylercalebvw15@gmail.com">
       <div class="contact-icon email">✉</div>
@@ -1102,12 +1034,11 @@ footer span { color: var(--green); }
   © 2026 <span>Tyler van Wyk</span> &nbsp;·&nbsp; Built with intent.
 </footer>
 
-<!-- ─── FUNNEL MODAL ─── -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
 
-    <!-- STEP 1 -->
     <div class="modal-step active" id="step1">
       <div class="modal-plan-tag" id="modalPlanLabel">Starter Plan</div>
       <div class="modal-divider"></div>
@@ -1131,7 +1062,6 @@ footer span { color: var(--green); }
       </div>
     </div>
 
-    <!-- STEP 2 -->
     <div class="modal-step" id="step2">
       <div class="modal-plan-tag" id="modalPlanLabel2"></div>
       <div class="modal-divider"></div>
@@ -1160,7 +1090,6 @@ footer span { color: var(--green); }
 </div>
 
 <script>
-// ─── NAV ───
 function toggleMenu() {
   document.getElementById('menu').classList.toggle('active');
   document.getElementById('hamburger').classList.toggle('open');
@@ -1178,7 +1107,6 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// ─── MODAL FUNNEL ───
 let selectedPlan = '';
 let selectedType = '';
 
@@ -1216,21 +1144,18 @@ function goBack() {
 
 function sendContact(method) {
   const typeLabel = selectedType === 'upgrade' ? 'upgrade my existing website' : 'build me a brand new website';
-  const msg = `Hi Tyler! I'm interested in your *${selectedPlan}* and I'd like you to ${typeLabel}. Please get back to me when you can. Thanks!`;
+  const msg = "Hi Tyler! I'm interested in your " + selectedPlan + " and I'd like you to " + typeLabel + ". Please get back to me when you can. Thanks!";
 
   if (method === 'whatsapp') {
-    const encoded = encodeURIComponent(msg);
-    window.open('https://wa.me/27636736961?text=' + encoded, '_blank');
+    window.open('https://wa.me/27636736961?text=' + encodeURIComponent(msg), '_blank');
   } else {
     const subject = encodeURIComponent('Website Enquiry — ' + selectedPlan);
-    const body    = encodeURIComponent(msg);
+    const body = encodeURIComponent(msg);
     window.location.href = 'mailto:tylercalebvw15@gmail.com?subject=' + subject + '&body=' + body;
   }
-
   closeModal();
 }
 
-// Close on Escape key
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModal();
 });
@@ -1238,5 +1163,3 @@ document.addEventListener('keydown', function(e) {
 
 </body>
 </html>
-
-

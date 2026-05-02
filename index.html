@@ -775,7 +775,156 @@ footer {
 }
 
 footer span { color: var(--green); }
-</style>
+
+/* ─── MODAL OVERLAY ─── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(2,7,18,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.active {
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px 36px;
+  max-width: 460px;
+  width: 100%;
+  position: relative;
+  animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,170,255,0.08);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px; right: 18px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.modal-close:hover { color: var(--cyan); }
+
+.modal-step { display: none; }
+.modal-step.active { display: block; animation: fadeIn 0.2s ease; }
+
+.modal-plan-tag {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 10px;
+}
+
+.modal h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.modal-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  line-height: 1.7;
+}
+
+.modal-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-option {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  text-align: left;
+}
+
+.modal-option:hover {
+  border-color: var(--cyan);
+  background: rgba(0,170,255,0.07);
+  transform: translateX(4px);
+}
+
+.modal-option-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.modal-option-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+  letter-spacing: 1px;
+}
+
+.modal-option-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.modal-divider {
+  width: 40px; height: 2px;
+  background: linear-gradient(90deg, var(--green), var(--cyan));
+  border-radius: 2px;
+  margin: 0 0 24px;
+}
+
+.modal-back {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+}
+
+.modal-back:hover { color: var(--cyan); }
+
 </head>
 
 <body>
@@ -885,7 +1034,7 @@ footer span { color: var(--green); }
           <li>You own it on delivery</li>
         </ul>
       </div>
-      <a class="buy-btn" href="mailto:tylercalebvw15@gmail.com?subject=Starter Plan">GET STARTED</a>
+      <button class="buy-btn" onclick="openModal('Starter Plan')">GET STARTED</button>
     </div>
 
     <!-- PRO (featured) -->
@@ -902,7 +1051,7 @@ footer span { color: var(--green); }
           <li>Performance monitoring</li>
         </ul>
       </div>
-      <a class="buy-btn" href="mailto:tylercalebvw15@gmail.com?subject=Pro Plan">GET STARTED</a>
+      <button class="buy-btn" onclick="openModal('Pro Plan')">GET STARTED</button>
     </div>
 
     <!-- SUPER -->
@@ -919,7 +1068,7 @@ footer span { color: var(--green); }
           <li>New sections on request</li>
         </ul>
       </div>
-      <a class="buy-btn" href="mailto:tylercalebvw15@gmail.com?subject=Super Plan">GET STARTED</a>
+      <button class="buy-btn" onclick="openModal('Super Plan')">GET STARTED</button>
     </div>
 
   </div>
@@ -953,20 +1102,73 @@ footer span { color: var(--green); }
   © 2026 <span>Tyler van Wyk</span> &nbsp;·&nbsp; Built with intent.
 </footer>
 
-<script>
-function toggleMenu() {
-  const menu = document.getElementById('menu');
-  const ham  = document.getElementById('hamburger');
-  menu.classList.toggle('active');
-  ham.classList.toggle('open');
-}
+<!-- ─── FUNNEL MODAL ─── -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
 
+    <!-- STEP 1 -->
+    <div class="modal-step active" id="step1">
+      <div class="modal-plan-tag" id="modalPlanLabel">Starter Plan</div>
+      <div class="modal-divider"></div>
+      <h3>What do you need?</h3>
+      <p class="modal-sub">Tell me a bit about your project so I can send you the right info.</p>
+      <div class="modal-options">
+        <div class="modal-option" onclick="selectType('upgrade')">
+          <div class="modal-option-icon">🔧</div>
+          <div>
+            <div class="modal-option-title">Upgrade My Website</div>
+            <div class="modal-option-desc">You already have a site and want it redesigned or improved.</div>
+          </div>
+        </div>
+        <div class="modal-option" onclick="selectType('new')">
+          <div class="modal-option-icon">🌐</div>
+          <div>
+            <div class="modal-option-title">Build Me a New Website</div>
+            <div class="modal-option-desc">You need a brand new website built from scratch.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="modal-step" id="step2">
+      <div class="modal-plan-tag" id="modalPlanLabel2"></div>
+      <div class="modal-divider"></div>
+      <h3>How should I reach you?</h3>
+      <p class="modal-sub">Choose how you'd like to send your message — I'll get back to you ASAP.</p>
+      <div class="modal-options">
+        <div class="modal-option" onclick="sendContact('whatsapp')">
+          <div class="modal-option-icon">💬</div>
+          <div>
+            <div class="modal-option-title">WhatsApp</div>
+            <div class="modal-option-desc">Opens WhatsApp with a pre-filled message. Fastest response.</div>
+          </div>
+        </div>
+        <div class="modal-option" onclick="sendContact('email')">
+          <div class="modal-option-icon">✉️</div>
+          <div>
+            <div class="modal-option-title">Email</div>
+            <div class="modal-option-desc">Opens your email with a pre-filled message ready to send.</div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-back" onclick="goBack()">← Back</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ─── NAV ───
+function toggleMenu() {
+  document.getElementById('menu').classList.toggle('active');
+  document.getElementById('hamburger').classList.toggle('open');
+}
 function closeMenu() {
   document.getElementById('menu').classList.remove('active');
   document.getElementById('hamburger').classList.remove('open');
 }
-
-// Close menu on outside click
 document.addEventListener('click', function(e) {
   const menu = document.getElementById('menu');
   const ham  = document.getElementById('hamburger');
@@ -974,6 +1176,63 @@ document.addEventListener('click', function(e) {
     menu.classList.remove('active');
     ham.classList.remove('open');
   }
+});
+
+// ─── MODAL FUNNEL ───
+let selectedPlan = '';
+let selectedType = '';
+
+function openModal(plan) {
+  selectedPlan = plan;
+  selectedType = '';
+  document.getElementById('modalPlanLabel').textContent = plan;
+  document.getElementById('step1').classList.add('active');
+  document.getElementById('step2').classList.remove('active');
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function selectType(type) {
+  selectedType = type;
+  const label = type === 'upgrade' ? '🔧 Upgrade · ' + selectedPlan : '🌐 New Website · ' + selectedPlan;
+  document.getElementById('modalPlanLabel2').textContent = label;
+  document.getElementById('step1').classList.remove('active');
+  document.getElementById('step2').classList.add('active');
+}
+
+function goBack() {
+  document.getElementById('step2').classList.remove('active');
+  document.getElementById('step1').classList.add('active');
+}
+
+function sendContact(method) {
+  const typeLabel = selectedType === 'upgrade' ? 'upgrade my existing website' : 'build me a brand new website';
+  const msg = `Hi Tyler! I'm interested in your *${selectedPlan}* and I'd like you to ${typeLabel}. Please get back to me when you can. Thanks!`;
+
+  if (method === 'whatsapp') {
+    const encoded = encodeURIComponent(msg);
+    window.open('https://wa.me/27636736961?text=' + encoded, '_blank');
+  } else {
+    const subject = encodeURIComponent('Website Enquiry — ' + selectedPlan);
+    const body    = encodeURIComponent(msg);
+    window.location.href = 'mailto:tylercalebvw15@gmail.com?subject=' + subject + '&body=' + body;
+  }
+
+  closeModal();
+}
+
+// Close on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
 });
 </script>
 

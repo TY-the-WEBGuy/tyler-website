@@ -14,23 +14,25 @@
     }
 
     body {
-      background: #0f172a;
+      background: #0b1220;
       color: white;
+      line-height: 1.6;
     }
 
+    /* HERO */
     header {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(to bottom, #0f172a, #020617);
       text-align: center;
-      padding: 20px;
+      padding: 40px 20px;
+      background: radial-gradient(circle at top, #1e293b, #0b1220);
     }
 
     h1 {
-      font-size: 48px;
+      font-size: 52px;
       margin-bottom: 10px;
     }
 
@@ -41,76 +43,114 @@
     }
 
     .btn {
-      padding: 14px 28px;
-      background: #22c55e;
-      color: black;
+      display: inline-block;
+      padding: 14px 26px;
+      margin: 8px;
       border-radius: 10px;
       text-decoration: none;
       font-weight: bold;
       transition: 0.3s;
     }
 
-    .btn:hover {
+    .primary {
+      background: #22c55e;
+      color: black;
+    }
+
+    .primary:hover {
       background: #16a34a;
     }
 
+    .secondary {
+      border: 1px solid #334155;
+      color: white;
+    }
+
+    .secondary:hover {
+      background: #1e293b;
+    }
+
+    /* SECTIONS */
     section {
       padding: 80px 20px;
-      text-align: center;
+      max-width: 900px;
+      margin: auto;
     }
 
     h2 {
       font-size: 32px;
       margin-bottom: 20px;
+      text-align: center;
     }
 
-    .content {
-      max-width: 700px;
-      margin: auto;
+    .card {
+      background: #111827;
+      padding: 25px;
+      border-radius: 15px;
+      margin-top: 20px;
+      border: 1px solid #1f2937;
+    }
+
+    .text {
       color: #cbd5e1;
-      font-size: 18px;
+      text-align: center;
+    }
+
+    /* CONTACT */
+    .contact {
+      text-align: center;
     }
 
     .contact p {
       margin: 10px 0;
-      font-size: 18px;
+      color: #cbd5e1;
     }
 
+    /* FOOTER */
     footer {
       text-align: center;
       padding: 20px;
       color: #64748b;
-      font-size: 14px;
-      border-top: 1px solid #1e293b;
+      border-top: 1px solid #1f2937;
     }
   </style>
 </head>
+
 <body>
 
+  <!-- HERO -->
   <header>
     <h1>Tyler van Wyk</h1>
-    <p class="subtitle">Web Developer</p>
-    <a class="btn" href="mailto:tylercalebvw15@gmail.com">Get In Touch</a>
+    <p class="subtitle">Web Developer | Front-End Creator</p>
+
+    <div>
+      <a class="btn primary" href="mailto:tylercalebvw15@gmail.com">Email Me</a>
+      <a class="btn secondary" href="https://wa.me/27636736961" target="_blank">WhatsApp Me</a>
+    </div>
   </header>
 
+  <!-- ABOUT -->
   <section>
     <h2>About Me</h2>
-    <div class="content">
-      <p>
-        I create modern, fast, and responsive websites for businesses and individuals.
-        Focused on clean design, performance, and real results.
+    <div class="card">
+      <p class="text">
+        I build modern, fast, and responsive websites. I focus on clean design,
+        user experience, and performance.
       </p>
     </div>
   </section>
 
+  <!-- CONTACT -->
   <section class="contact">
     <h2>Contact</h2>
-    <p>Email: tylercalebvw15@gmail.com</p>
-    <p>Phone / WhatsApp: +27 636736961</p>
+    <div class="card">
+      <p>Email: tylercalebvw15@gmail.com</p>
+      <p>Phone / WhatsApp: +27 636736961</p>
+    </div>
   </section>
 
   <footer>
-    <p>© 2026 Tyler van Wyk. All rights reserved.</p>
+    © 2026 Tyler van Wyk — All rights reserved
   </footer>
 
 </body>
